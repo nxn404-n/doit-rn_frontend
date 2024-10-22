@@ -106,6 +106,14 @@ Use <code>npm run test</code> to run test
 
 Use <code>npm run dev</code> to deploy the project
 
+## Run test
+
+- Use <code>npm test</code> to run test
+
+- Use <code>npm run test:ui</code> to run test ui
+
+- Use <code>npm run coverage</code> to run test coverage
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- AUTHORS -->
