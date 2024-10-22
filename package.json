@@ -9,6 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest",
+    "test:ui": "vitest --ui",
     "coverage": "vitest --coverage"
   },
   "dependencies": {
@@ -26,6 +27,7 @@
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.2",
     "@vitest/coverage-v8": "^2.1.2",
+    "@vitest/ui": "^2.1.2",
     "autoprefixer": "^10.4.20",
     "eslint": "^9.9.0",
     "eslint-plugin-react": "^7.35.0",
