@@ -1,6 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
-import bcrypt from 'bcryptjs';
 import SignupOrLogin from '../components/SignupOrLogin';
 
 describe('SignupOrLogin component', () => {

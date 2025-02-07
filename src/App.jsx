@@ -7,7 +7,7 @@ import AccountCenter from "./components/AccountCenter";
 
 function App() {
   // decides if its gonna show the todo list or not
-  const [showTodo, setShowTodo] = useState(true);
+  const [showTodo, setShowTodo] = useState(false);
 
   // decides if its gonna show the account center or not
   const [showAccCenter, setShowAccCenter] = useState(false);
@@ -15,25 +15,22 @@ function App() {
   // If its true thn shows the signup form and if its false thn shows the login form
   const [signUp, setSignUp] = useState(true);
 
-  const [loggedIn, setLoggedIn] = useState(() => {
-    // Lazy intialization in useState to check if there are any loggedIn data in localStorage when the component first reneders
-    try {
-      const savedLoginData = localStorage.getItem("loggedIn");
-      return savedLoginData ? JSON.parse(savedLoginData) : false;
-    } catch (error) {
-      console.error("Error parsing userData from localStorage", error);
-      return false;
-    }
-  });
+  // Shows if user logged in or not
+  const [loggedIn, setLoggedIn] = useState(false);
 
+  // Fetches loggedIn data from localStorage
   useEffect(() => {
-    localStorage.setItem("loggedIn", JSON.stringify(loggedIn));
-  }, [loggedIn]);
+    const loggedInData = localStorage.getItem("loggedIn");
+    if (loggedInData === "true") {
+      setLoggedIn(true);
+    } else {
+      setLoggedIn(false);
+    }
+  }, [showTodo]);
 
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center bg-[#D6D3C0] sm:w-3/4 sm:h-4/5 border-black border-2">
+    <div className="flex h-full w-full flex-col items-center justify-center border-2 border-black bg-[#D6D3C0] sm:h-4/5 sm:w-3/4">
       <Navbar />
-      {/* className="bg-[#FAEBD7] w-3/4 h-4/5" apply this in desktop mode */}
       <div className="flex h-full w-full gap-6">
         {loggedIn && (
           <Sidebar
@@ -55,7 +52,6 @@ function App() {
 
         {loggedIn === false && (
           <Authentication
-            setLoggedIn={setLoggedIn}
             signUp={signUp}
             setSignUp={setSignUp}
             setShowTodo={setShowTodo}
