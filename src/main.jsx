@@ -4,7 +4,9 @@ import App from "./App.jsx";
 import "./index.css";
 
 createRoot(document.getElementById("root")).render(
-      <div className='flex items-center justify-center h-screen'>
-        <App />
-      </div>
+  <StrictMode>
+    <div className="flex h-screen items-center justify-center">
+      <App />
+    </div>
+  </StrictMode>,
 );

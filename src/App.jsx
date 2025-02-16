@@ -23,7 +23,6 @@ function App() {
 
   // Save user data
   const [user, setUser] = useState({});
-  
 
   // Function to authenticate
   const checkUserAuth = async () => {
@@ -33,7 +32,7 @@ function App() {
         "https://doit-rn-backend.onrender.com/api/auth",
         { withCredentials: true },
       );
-      
+
       // If the response is successful, the user is logged in and the user data is saved
       setUser(response.data);
       setLoggedIn(true);
@@ -44,13 +43,9 @@ function App() {
     }
   };
 
-  // Authenticate on page load
+  // Fetches loggedIn data from localStorage and authenticates the user
   useEffect(() => {
     checkUserAuth();
-  }, []);
-
-  // Fetches loggedIn data from localStorage
-  useEffect(() => {
     const loggedInData = localStorage.getItem("loggedIn");
     if (loggedInData === "true") {
       setLoggedIn(true);
@@ -70,15 +65,21 @@ function App() {
           />
         )}
 
-        {showTodo && user && loggedIn && <TodoList loggedIn={loggedIn} userData={user} />}
+        {showTodo && user && loggedIn && (
+          <TodoList
+            loggedIn={loggedIn}
+            userData={user}
+          />
+        )}
 
         {showAccCenter && (
           <AccountCenter
-            setLoggedIn={setLoggedIn}
             setSignUp={setSignUp}
             loggedIn={loggedIn}
             showTodo={showTodo}
-            userData={user}
+            user={user}
+            setUser={setUser}
+            setLoggedIn={setLoggedIn}
           />
         )}
 
@@ -87,6 +88,7 @@ function App() {
             signUp={signUp}
             setSignUp={setSignUp}
             setShowTodo={setShowTodo}
+            setLoggedIn={setLoggedIn}
           />
         )}
         <ToastContainer />

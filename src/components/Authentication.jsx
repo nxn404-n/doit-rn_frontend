@@ -2,7 +2,7 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import SignupOrLogin from "./SignupOrLogin";
 
-const Authentication = ({ signUp, setSignUp, setShowTodo }) => {
+const Authentication = ({ signUp, setSignUp, setShowTodo, setLoggedIn }) => {
   // stores the userData
   const [userData, setUserData] = useState({ username: "", password: "" });
 
@@ -24,6 +24,7 @@ const Authentication = ({ signUp, setSignUp, setShowTodo }) => {
             setUserData={setUserData}
             signUp={signUp}
             setShowTodo={setShowTodo}
+            setLoggedIn={setLoggedIn}
           />
         ) : (
           <SignupOrLogin
@@ -32,6 +33,7 @@ const Authentication = ({ signUp, setSignUp, setShowTodo }) => {
             setUserData={setUserData}
             signUp={signUp}
             setShowTodo={setShowTodo}
+            setLoggedIn={setLoggedIn}
           />
         )}
       </div>

@@ -161,7 +161,7 @@ const TodoList = ({ loggedIn, userData }) => {
 TodoList.propTypes = {
   loggedIn: PropTypes.bool.isRequired,
   userData: PropTypes.shape({
-    userId: PropTypes.string.isRequired,
+    userId: PropTypes.string,
   }).isRequired,
 };
 

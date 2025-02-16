@@ -9,6 +9,7 @@ const SignupOrLogin = ({
   setUserData,
   signUp,
   setShowTodo,
+  setLoggedIn,
 }) => {
   // Stores the data if the user wants to see the password or not
   const [showPassword, setShowPassword] = useState(false);
@@ -38,6 +39,7 @@ const SignupOrLogin = ({
           { withCredentials: true },
         );
         localStorage.setItem("loggedIn", response.data.loggedIn);
+        setLoggedIn(response.data.loggedIn);
         setShowTodo(true);
       } catch (error) {
         if (error.response) {
@@ -56,6 +58,7 @@ const SignupOrLogin = ({
           { withCredentials: true },
         );
         localStorage.setItem("loggedIn", response.data.loggedIn);
+        setLoggedIn(response.data.loggedIn);
         setShowTodo(true);
       } catch (error) {
         if (error.response) {
@@ -131,6 +134,7 @@ SignupOrLogin.propTypes = {
   }).isRequired,
   setUserData: PropTypes.func.isRequired,
   signUp: PropTypes.bool.isRequired,
+  setLoggedIn: PropTypes.func.isRequired,
 };
 
 export default SignupOrLogin;

@@ -1,35 +1,55 @@
+import axios from "axios";
 import PropTypes from "prop-types";
 
-const AccountCenter = ({ setLoggedIn, setSignUp, loggedIn, showTodo }) => {
-  const accName = JSON.parse(localStorage.getItem("savedUserData")).username;
+const AccountCenter = ({ setSignUp, loggedIn, showTodo, user, setUser, setLoggedIn }) => {
+  const accName = user.username;
 
   // Handles the Logout button
-  function handleLogOut() {
+  async function handleLogOut() {
+    await axios.post(
+      `https://doit-rn-backend.onrender.com/api/user/logout/${user.userId}`,
+      { withCredentials: true },
+    );
     setLoggedIn(false);
-    localStorage.setItem("loggedIn", JSON.stringify(loggedIn));
-    setSignUp(false);
+    setUser({});
+    localStorage.setItem("loggedIn", "false");
+    setSignUp(true);
   }
 
   // Handles the Delete account button
-  function handleDeleteAcc() {
-    setLoggedIn(false);
-    localStorage.setItem(
-      "savedUserData",
-      JSON.stringify({ username: "", password: "" }),
+  async function handleDeleteAcc() {
+    await axios.delete(
+      `https://doit-rn-backend.onrender.com/api/user/${user.userId}`,
+      { withCredentials: true },
     );
-    localStorage.setItem("todos", JSON.stringify([]));
+    setLoggedIn(false);
+    setUser({});
+    localStorage.setItem("loggedIn", "false");
+    setSignUp(true);
   }
 
   return (
     <>
       {loggedIn && !showTodo && (
-        <div className="pt-3 flex flex-col gap-3">
-          <h2 className="text-xl border-b-2 border-black px-4">Account Center</h2>
+        <div className="flex flex-col gap-3 pt-3">
+          <h2 className="border-b-2 border-black px-4 text-xl">
+            Account Center
+          </h2>
 
-          <div className="text-lg flex flex-col gap-1">
+          <div className="flex flex-col gap-1 text-lg">
             <p>Username: {accName}</p>
-            <p onClick={handleDeleteAcc} className="text-red-600  hover:scale-105 cursor-pointer">Delete account</p>
-            <p onClick={handleLogOut} className="hover:scale-105 cursor-pointer">Log out</p>
+            <p
+              onClick={handleDeleteAcc}
+              className="cursor-pointer text-red-600 hover:scale-105"
+            >
+              Delete account
+            </p>
+            <p
+              onClick={handleLogOut}
+              className="cursor-pointer hover:scale-105"
+            >
+              Log out
+            </p>
           </div>
         </div>
       )}
@@ -38,10 +58,15 @@ const AccountCenter = ({ setLoggedIn, setSignUp, loggedIn, showTodo }) => {
 };
 
 AccountCenter.propTypes = {
-  setLoggedIn: PropTypes.func.isRequired,
   setSignUp: PropTypes.func.isRequired,
   loggedIn: PropTypes.bool.isRequired,
   showTodo: PropTypes.bool.isRequired,
+  user: PropTypes.shape({
+    username: PropTypes.string,
+    userId: PropTypes.string,
+  }).isRequired,
+  setUser: PropTypes.func.isRequired,
+  setLoggedIn: PropTypes.func.isRequired,
 };
 
 export default AccountCenter;
