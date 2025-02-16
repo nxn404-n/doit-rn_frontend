@@ -6,7 +6,7 @@ const Todo = ({ data, deleteTodo, toggleComplete }) => {
       <input
         type="checkbox"
         checked={data.completed}
-        onChange={() => toggleComplete(data.id)}
+        onChange={() => toggleComplete(data.id, data.completed)}
         className="scale-150"
       />
       <p

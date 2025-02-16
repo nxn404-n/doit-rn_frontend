@@ -2,7 +2,7 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import SignupOrLogin from "./SignupOrLogin";
 
-const Authentication = ({ setLoggedIn, signUp, setSignUp, setShowTodo }) => {
+const Authentication = ({ signUp, setSignUp, setShowTodo, setLoggedIn }) => {
   // stores the userData
   const [userData, setUserData] = useState({ username: "", password: "" });
 
@@ -12,7 +12,7 @@ const Authentication = ({ setLoggedIn, signUp, setSignUp, setShowTodo }) => {
   }
 
   return (
-    <div className="pt-6 flex w-full h-full flex-col items-center gap-3 bg-[#8A9C8C]">
+    <div className="flex h-full w-full flex-col items-center gap-3 bg-[#8A9C8C] pt-6">
       <h1 className="mb-3 text-xl tracking-wider">Welcome to DOIT-rn</h1>
 
       {/* Showes diff content according to the signUp state */}
@@ -22,18 +22,18 @@ const Authentication = ({ setLoggedIn, signUp, setSignUp, setShowTodo }) => {
             buttonName={"Sign Up"}
             userData={userData}
             setUserData={setUserData}
-            setLoggedIn={setLoggedIn}
             signUp={signUp}
             setShowTodo={setShowTodo}
+            setLoggedIn={setLoggedIn}
           />
         ) : (
           <SignupOrLogin
             buttonName={"Log in"}
             userData={userData}
             setUserData={setUserData}
-            setLoggedIn={setLoggedIn}
             signUp={signUp}
             setShowTodo={setShowTodo}
+            setLoggedIn={setLoggedIn}
           />
         )}
       </div>
@@ -54,7 +54,7 @@ const Authentication = ({ setLoggedIn, signUp, setSignUp, setShowTodo }) => {
   );
 };
 Authentication.propTypes = {
-  setLoggedIn: PropTypes.func.isRequired,
+  setLoggedIn: PropTypes.func,
   signUp: PropTypes.bool.isRequired,
   setSignUp: PropTypes.func.isRequired,
   setShowTodo: PropTypes.func.isRequired,

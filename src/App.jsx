@@ -4,6 +4,9 @@ import Authentication from "./components/Authentication";
 import Sidebar from "./components/Sidebar";
 import { useEffect, useState } from "react";
 import AccountCenter from "./components/AccountCenter";
+import axios from "axios";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   // decides if its gonna show the todo list or not
@@ -15,25 +18,45 @@ function App() {
   // If its true thn shows the signup form and if its false thn shows the login form
   const [signUp, setSignUp] = useState(true);
 
-  const [loggedIn, setLoggedIn] = useState(() => {
-    // Lazy intialization in useState to check if there are any loggedIn data in localStorage when the component first reneders
-    try {
-      const savedLoginData = localStorage.getItem("loggedIn");
-      return savedLoginData ? JSON.parse(savedLoginData) : false;
-    } catch (error) {
-      console.error("Error parsing userData from localStorage", error);
-      return false;
-    }
-  });
+  // Shows if user logged in or not
+  const [loggedIn, setLoggedIn] = useState(false);
 
+  // Save user data
+  const [user, setUser] = useState({});
+
+  // Function to authenticate
+  const checkUserAuth = async () => {
+    try {
+      // Send a request to the protected route to check if the user is still logged in
+      const response = await axios.get(
+        "https://doit-rn-backend.onrender.com/api/auth",
+        { withCredentials: true },
+      );
+
+      // If the response is successful, the user is logged in and the user data is saved
+      setUser(response.data);
+      setLoggedIn(true);
+    } catch {
+      // If authentication fails thn it asks user to login again
+      setLoggedIn(false);
+      setShowTodo(false);
+    }
+  };
+
+  // Fetches loggedIn data from localStorage and authenticates the user
   useEffect(() => {
-    localStorage.setItem("loggedIn", JSON.stringify(loggedIn));
-  }, [loggedIn]);
+    checkUserAuth();
+    const loggedInData = localStorage.getItem("loggedIn");
+    if (loggedInData === "true") {
+      setLoggedIn(true);
+    } else {
+      setLoggedIn(false);
+    }
+  }, []);
 
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center bg-[#D6D3C0] sm:w-3/4 sm:h-4/5 border-black border-2">
+    <div className="flex h-full w-full flex-col items-center justify-center border-2 border-black bg-[#D6D3C0] sm:h-4/5 sm:w-3/4">
       <Navbar />
-      {/* className="bg-[#FAEBD7] w-3/4 h-4/5" apply this in desktop mode */}
       <div className="flex h-full w-full gap-6">
         {loggedIn && (
           <Sidebar
@@ -42,25 +65,33 @@ function App() {
           />
         )}
 
-        {showTodo && <TodoList loggedIn={loggedIn} />}
+        {showTodo && user && loggedIn && (
+          <TodoList
+            loggedIn={loggedIn}
+            userData={user}
+          />
+        )}
 
         {showAccCenter && (
           <AccountCenter
-            setLoggedIn={setLoggedIn}
             setSignUp={setSignUp}
             loggedIn={loggedIn}
             showTodo={showTodo}
+            user={user}
+            setUser={setUser}
+            setLoggedIn={setLoggedIn}
           />
         )}
 
         {loggedIn === false && (
           <Authentication
-            setLoggedIn={setLoggedIn}
             signUp={signUp}
             setSignUp={setSignUp}
             setShowTodo={setShowTodo}
+            setLoggedIn={setLoggedIn}
           />
         )}
+        <ToastContainer />
       </div>
     </div>
   );
