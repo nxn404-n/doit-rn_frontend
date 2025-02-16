@@ -35,6 +35,7 @@ const SignupOrLogin = ({
             username: userData.username,
             password: userData.password,
           },
+          { withCredentials: true },
         );
         localStorage.setItem("loggedIn", response.data.loggedIn);
         setShowTodo(true);
@@ -52,6 +53,7 @@ const SignupOrLogin = ({
             username: userData.username,
             password: userData.password,
           },
+          { withCredentials: true },
         );
         localStorage.setItem("loggedIn", response.data.loggedIn);
         setShowTodo(true);

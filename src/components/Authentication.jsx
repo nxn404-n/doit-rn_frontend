@@ -2,7 +2,7 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import SignupOrLogin from "./SignupOrLogin";
 
-const Authentication = ({ setLoggedIn, signUp, setSignUp, setShowTodo }) => {
+const Authentication = ({ signUp, setSignUp, setShowTodo }) => {
   // stores the userData
   const [userData, setUserData] = useState({ username: "", password: "" });
 
